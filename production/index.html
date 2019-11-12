@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="google" value="notranslate" />
+    <meta http-equiv="Content-Language" content="en_US" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!--Work Based Fonts-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="styles/reset.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="styles/base.min.css" />
+</head>
+
+<body>
+    <!--START: Header-->
+    <header>
+        <a class="site-logo" href="#/"><img src="images/site-logo.png" alt="Mad About Shopping" class="full-width-img"></a>
+        <div class="form-group search-wrapper">
+            <input class="form-input" type="text" placeholder="Eg: Product Tag" onkeyup="search();">
+            <i class="fa fa-search"></i>
+        </div>
+        <div class="header-right-wrapper">
+            <div class="tooltip-wrapper notification">
+                <div class="tooltip-info">
+                    <i class="fas fa-bell"></i>
+                    <em>1</em>
+                </div>
+                <div class="tooltip-content rel-wrapper">
+                    <div class="rel-wrapper">
+                        <ul class="tooltip-content-list"></ul>
+                        <button type="button" class="btn secondary-btn">Clear All</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tooltip-wrapper shopping-cart">
+                <div class="tooltip-info rel-wrapper">
+                    <i class="fas fa-shopping-bag"></i>
+                    <em></em>
+                </div>
+                <div class="tooltip-content">
+                    <div class="rel-wrapper">
+                        <ul class="tooltip-content-list"></ul>
+                        <button type="button" class="btn secondary-btn">Check Out</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tooltip-wrapper user-profile">
+                <div class="tooltip-info rel-wrapper">
+                    <img src="images/profile-image.png" alt="User" />
+                </div>
+                <div class="tooltip-content">
+                    <div class="rel-wrapper">
+                        <ul class="tooltip-content-list"></ul>
+                        <button type="button" class="btn secondary-btn">Log Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!--END: Header-->
+
+    <section class="main">
+        <!--START: Product Display-->
+        <ul class="product-list"></ul>
+        <!--END: Product Display-->
+
+        <!--START: Cart Display-->
+        <div class="cart-wrapper">
+            <div class="section-heading-wrapper">
+                <h3 class="Section-heading">My Shopping Bag (<em class="total-cart-item"></em> Items)</h3><span class="total-amt">Total: Rs. <em></em></span>
+            </div>
+            <ul class="cart-list"></ul>
+            <div class="section-footer-wrapper">
+                <h3 class="section-heading no-margin">Do you want to check more collection?</h3><button type="btn" class="btn secondaty-btn continue-shopping">Continue Shopping</button>
+            </div>
+        </div>
+        <!--END: Cart Display-->
+    </section>
+
+    <!--START: Footer-->
+    <footer>
+        <div class="loader">
+            <div class="loader-item"></div>
+            <div class="loader-item"></div>
+        </div>
+        <script src="https://kit.fontawesome.com/0d60eadb0f.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="scripts/base.js" type="text/javascript"></script>
+    </footer>
+    <!--END: Footer-->
+
+</body>
+
+</html>
