@@ -1,6 +1,6 @@
 var totalPCount = 0,
     totalPAmt = 0;
-var currentURL;
+var currentURL = window.location.href;
 var winHeight = $(window).height();
 var addedPQuant = [];
 $(document).ready(function () {
@@ -159,6 +159,7 @@ function showShoppingCart() {
     var pPrice, count = 0;
     $(document).on('click', '.shopping-cart.has-value', function () {
         $('body').addClass('show-cart');
+        currentURL = window.location.href;
         if (currentURL.split('/').indexOf('cart') < 0) {
             currentURL += 'cart';
         }
