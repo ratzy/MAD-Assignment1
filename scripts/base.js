@@ -13,6 +13,7 @@ $(document).ready(function () {
     continueShopping();
 });
 
+
 /*START: Show Loader*/
 function showLoader() {
     $('.loader').removeClass('hide');
@@ -90,7 +91,6 @@ function lazyLoading() {
                 showLoader();
                 setTimeout(function () {
                     getData();
-
                 }, 200);
             }
         }
@@ -196,7 +196,7 @@ function deleteProduct() {
         count = ele.closest('.product-item').find('.form-input').val();
         price = parseFloat(ele.closest('.product-item').find('.p-final-price').html().split(" ")[1]);
         ele.closest('.product-item').remove();
-        totalPCount = totalPCount - count; //Re-assigning the current value
+        totalPCount = $('.cart-wrapper .product-item').length; 
         totalPAmt = totalPAmt - price; //Re-assigning the current value
         $('.cart-wrapper .total-cart-item, .shopping-cart em').html(totalPCount);
         $('.cart-wrapper .total-amt em').html(totalPAmt);
@@ -211,6 +211,7 @@ function continueShopping() {
         history.pushState({
             id: ''
         }, 'MADOS | Products', currentURL);
+        rangeStart = 0;
         getData();
         $('.cart-wrapper').hide();
     });
