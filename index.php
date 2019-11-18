@@ -11,13 +11,9 @@
     <!--END: Header-->
 
     <section class="main">
-        <!--START: Product Display-->
-        <?php include('components/product.php'); ?>
-        <!--END: Product Display-->
-
-        <!--START: Cart Display-->
-        <?php include('components/cart.php'); ?>
-        <!--END: Cart Display-->
+        <!--START: Tweets Display-->
+        <?php include('components/tweet.php'); ?>
+        <!--END: Tweets Display-->
     </section>
 
     <!--START: Footer-->
