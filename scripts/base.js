@@ -14,11 +14,6 @@ $(document).ready(function () {
 });
 
 
-$(window).load(function () {
-    if (currentURL.split("/").indexOf('#cart') >= 0) {
-        showShoppingCart();
-    }
-})
 /*START: Show Loader*/
 function showLoader() {
     $('.loader').removeClass('hide');
@@ -191,39 +186,6 @@ function showShoppingCart() {
 
     });
 }
-
-//function showShoppingCart() {
-//    var pPrice, count = 0;
-//    if ($('.shopping-cart').hasClass('has-value')) {
-//
-//        $('body').addClass('show-cart');
-//        currentURL = window.location.href;
-//        if (currentURL.split('/').indexOf('cart') < 0) {
-//            currentURL += 'cart';
-//        }
-//        $('.product-list').html(''); //Emptying the product display view
-//        history.pushState({
-//            id: 'cart'
-//        }, 'MADOS | Cart', currentURL);
-//        $('.shopping-cart .product-item').each(function () {
-//            pPrice = parseFloat($(this).find('.p-final-price').html().split(" ")[1]);
-//            totalPAmt += pPrice;
-//        });
-//        $('.cart-wrapper').show();
-//        $('.cart-wrapper .total-cart-item').html(totalPCount);
-//        $('.cart-wrapper .total-amt em').html(totalPAmt);
-//        $('.cart-list').html($('.shopping-cart .tooltip-content-list').html()); //Populating the Cart view
-//        setTimeout(function () {
-//            $('.cart-list .product-item').each(function () {
-//                pQuant = $(this).attr('quantity');
-//                $(this).find('.form-input').val(addedPQuant[count]);
-//                $(this).append('<i class="far fa-trash-alt delete-btn" title="Delete"></i>');
-//                count++;
-//            });
-//        }, 100);
-//    }
-//}
-
 /*END: Show Shopping Cart*/
 
 /*START: Delete Product from Cart*/
@@ -234,7 +196,7 @@ function deleteProduct() {
         count = ele.closest('.product-item').find('.form-input').val();
         price = parseFloat(ele.closest('.product-item').find('.p-final-price').html().split(" ")[1]);
         ele.closest('.product-item').remove();
-        totalPCount = $('.cart-wrapper .product-item').length;
+        totalPCount = $('.cart-wrapper .product-item').length; 
         totalPAmt = totalPAmt - price; //Re-assigning the current value
         $('.cart-wrapper .total-cart-item, .shopping-cart em').html(totalPCount);
         $('.cart-wrapper .total-amt em').html(totalPAmt);
