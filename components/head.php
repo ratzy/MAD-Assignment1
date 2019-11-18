@@ -3,7 +3,7 @@
 <meta name="google" value="notranslate" />
 <meta http-equiv="Content-Language" content="en_US" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+<title>MADOS | Mad About Shopping</title>
 <!--Work Based Fonts-->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <link href="styles/reset.min.css" rel="stylesheet" />
