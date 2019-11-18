@@ -79,6 +79,10 @@ a {
     display: flex;
 }
 
+.flex-align-center {
+    align-items: center;
+}
+
 .vertical-center-align {
     position: absolute;
     top: 50%;
@@ -265,9 +269,9 @@ a {
 @redColor: #fe0000;
 @whiteColor: #FFF;
 @lightWhiteColor: #f6f6f6;
-@primaryColor: #012add;
+@primaryColor: #1da1f2;
 
-@border-radius: .25rem;
+@border-radius: 30px;
 
 .black-color-font {
     color: @blackColor;
@@ -401,14 +405,14 @@ a {
 
 .form-input {
     .rel-wrapper;
-    .normal-font-size;
+    .small-font-size;
     .border;
     background: transparent;
     color: @blackColor;
     border-radius: @border-radius;
     width: 100%;
     outline: none;
-    padding: .6rem 1rem;
+    padding: .5rem 1rem;
     box-sizing: border-box;
     z-index: 1;
 
@@ -493,7 +497,7 @@ header {
 .search-wrapper {
     position: absolute;
     left: 30%;
-    width: 40%;
+    width: 50%;
 }
 
 .header-right-wrapper {
@@ -543,105 +547,114 @@ header {
 }
 
 //END: Search
+
 .main {
-    margin: 7rem 8% 2rem;
+    margin: 6.5rem 8% 2rem;
 }
 
-//START: Product List
-.product-list {
-    .flex-wrapper;
-    flex-wrap: wrap;
+
+//START: tweet List
+.tweet-list {
+    margin: 0;
 }
 
-.product-item {
+.tweet-item {
     .transition;
     .border;
-    margin: 0 1rem 2rem;
-    flex: 1 1 calc(~"25% - 2rem");
-    max-width: calc(~"25% - 2rem");
+    margin: 0 0 2rem;
+    padding: 1rem;
+    width: 100%;
     box-sizing: border-box;
-    border-radius: @border-radius;
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-    overflow: hidden;
+    background: transparent;
+    align-items: flex-start;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 0 1rem -0.07rem rgba(0, 0, 0, 0);
 
     &:hover {
-        transform: translateY(-.5rem);
-        -webkit-transform: translateY(-.5rem);
-        -moz-transform: translateY(-.5rem);
-        -ms-transform: translateY(-.5rem);
-        -o-transform: translateY(-.5rem);
-        box-shadow: 0 .5rem 1rem -0.07rem rgba(0, 0, 0, .11);
+        background: lighten(@primaryColor, 45%);
+        box-shadow: 0 .2rem .5rem -0.07rem rgba(0, 0, 0, .1);
     }
 
     img {
         .full-width-img;
     }
 
-    .p-details {
-        padding: 1rem .8rem;
-    }
-
-    .p-id {
-        display: none;
-    }
-
-    .p-name {
-        .muli-SemiBold;
-        .medium-font-size;
-        color: darken(@greyColor, 15%);
-        letter-spacing: -0.02rem;
-    }
-
-    em {
-        .muli-regular;
-    }
-
-    .p-price-block,
-    .p-name-block {
-        .flex-wrapper;
-        align-items: baseline;
-    }
-
-    .p-name-block {
-        justify-content: space-between;
-    }
-
-    .p-final-price {
-        .normal-font-size;
-        .muli-bold;
-        margin: 0 .8rem 0 0;
-    }
-
-    .p-price,
-    .p-discount {
-        .small-font-size2;
-        .red-color-font;
-    }
-
-    .p-price-block {
-        margin: .5rem 0 .8rem;
-    }
-
-    .p-price {
-        .muli-light;
-        .grey-color-font;
-        margin: 0 .3em 0 0;
-        text-decoration: line-through;
-    }
-
-    .p-type {
-        .muli-light;
-        .white-color-font;
-        font-size: .65rem;
-        text-transform: capitalize;
-        padding: .2rem .8rem;
-        border-radius: .8rem;
-        background: lighten(@primaryColor, 30%);
-        line-height: 1.5;
+    .tweet-content-info {
+        margin-left: .5rem;
     }
 }
 
-//END: Product List
+.profile-img {
+    width: 3rem;
+    border-radius: 50%;
+}
+
+.user-name-block {
+    .flex-wrapper;
+    align-items: center;
+}
+
+.user-name,
+.user-handle {
+    .muli-bold;
+    .normal-font-size;
+    .black-color-font;
+    margin: 0 .5rem 0 0;
+}
+
+.user-handle,
+.tweet-time {
+    .muli-light;
+    .grey-color-font;
+}
+
+.tweet-time {
+    .small-font-size;
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid #adadad;
+    color: lighten(@greyColor, 15%);
+}
+
+.tweet-content {
+    margin-top: .8rem;
+}
+
+.tweet-content {
+    .tweet-msg {
+        .muli-regular;
+        color: lighne(@blackColor, 5%);
+        line-height: 1.3;
+        margin-bottom: .5rem;
+    }
+
+    .tweet-img {
+        border-radius: .5rem;
+        box-shadow: 0 0 1rem -0.07rem rgba(0, 0, 0, .1);
+    }
+}
+
+.tweet-respond-wrapper {
+    margin-top: 1.5rem;
+    align-items: center;
+
+    .tweet-respond-item {
+        .flex-wrapper;
+        .grey-color-font;
+        .small-font-size;
+        align-items: center;
+        padding: 0 1rem 0 0;
+        flex: 1 1 calc(~"25% - 1rem");
+        max-width: calc(~"25% - 1rem");
+
+        i {
+            .block-element;
+            margin-right: .3rem;
+        }
+    }
+}
+
+//END: tweet List
 
 .section-heading-wrapper,
 .section-footer-wrapper {
@@ -676,7 +689,7 @@ header {
 .cart-list {
     margin-top: 2rem;
 
-    .product-item {
+    .tweet-item {
         .flex-wrapper;
         flex: 1 1 calc(~"100% - 2rem");
         max-width: calc(~"100% - 2rem");

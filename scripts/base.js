@@ -1,18 +1,55 @@
 var totalPCount = 0,
     totalPAmt = 0;
+var filterTerm;
 var currentURL = window.location.href;
 var winHeight = $(window).height();
 var addedPQuant = [];
+var searchKeyword = 'adobe';
+var curDay = new Date(); //Current Date
+var rangeEnd;
+
+
 $(document).ready(function () {
     //    tooltip();
-    getData();
+    checkFromUrl();
     addToCart();
     lazyLoading();
     showShoppingCart();
     deleteProduct();
     continueShopping();
+    search();
 });
 
+
+$(window).load(function () {
+    if (currentURL.indexOf("?key") < 0) {
+        currentURL += '?key=adobe';
+        history.pushState({
+            id: ''
+        }, 'MADOS | Cart', currentURL);
+    }
+})
+/*START: Loading tweets as per the product search*/
+
+function checkFromUrl() {
+    if (currentURL.split("=")[1] == "") {
+        filterTerm = 'adobe';
+        rangeEnd = rangeStart + 4;
+        getData(rangeEnd);
+        return;
+    }
+    if (currentURL.indexOf("xd") >= 0) {
+        filterTerm = 'xd';
+        getData(rangeEnd);
+        return;
+    }
+    if (currentURL.indexOf("photoshop") >= 0) {
+        filterTerm = 'photoshop';
+        getData(rangeEnd);
+        return;
+    }
+}
+/*END: Loading tweets as per the product search*/
 
 /*START: Show Loader*/
 function showLoader() {
@@ -36,25 +73,36 @@ function tooltip() {
 }
 /*End: Tooltip*/
 
-var returnData, totalProduct;
+var returnData,
+    totalTweet;
 /*START: Fetch Data*/
-function getData() {
+function getData(rangeEnd) {
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const url = "https://aravindtwitter.herokuapp.com/twittersearch?key=adobe";
+
     $.ajax({
-        url: 'https://api.myjson.com/bins/qhnfp',
+        url: proxyurl + url,
         type: 'get',
         dataType: 'json',
         contentType: 'application/json'
     }).pipe(
         function (returnData) {
             console.log(returnData);
-            totalProduct = returnData.length;
+            totalTweet = returnData.statuses.length;
             setTimeout(function () {
                 hideLoader();
-                populateData(returnData);
+                if (rangeEnd === undefined) {
+                    populateData(returnData, rangeEnd, filterTerm);
+                } else {
+                    populateData(returnData, rangeEnd, filterTerm);
+                }
             }, 200);
         },
         function (jqXHR, textStatus, errorThrown) {}
     );
+
+
+
 }
 /*END: Fetch Data*/
 
@@ -64,19 +112,56 @@ function getData() {
 var rangeStart = 0;
 var btnHTML = '<div class="btn-input-wrapper"><button class="btn primary-btn add-to-cart" type="button">Add to Cart</button><em class="placeholder">Quantity</em><input class="form-input" type="number" max="10" min="1" value="1"></div>'
 
-function populateData(returnData) {
+function populateData(returnData, rangeEnd) {
     var price, discount, finalPrice;
     //    +returnData[i].img_url +
-    for (var i = rangeStart; i <= (rangeStart + 4); i++) {
-        if (i < totalProduct) {
-            var price = returnData[i].price;
-            var discout = returnData[i].discount;
-            var finalPrice = price - (price * (discout / 100));
-            $('.product-list').append('<li class="product-item"><img src="./images/t.jpeg"><div class="p-details"><em class="p-id">' + returnData[i].id + '</em><div class="p-name-block"><h3 class="p-name">' + returnData[i].name + '</h3><span class="p-type">' + returnData[i].type + '</span></div><div class="p-price-block"><h5 class="p-final-price">Rs. ' + finalPrice + '</h5><em class="p-price">Rs. ' + price + '</em><em class="p-discount">(' + discout + ' % Off)</em></div>' + btnHTML + '</div></li>');
+    //    (rangeStart + 4)
+    if (rangeEnd === undefined) {
+        rangeEnd = returnData.statuses.length;
+    }
+    for (var i = rangeStart; i <= rangeEnd; i++) {
+        if (i < totalTweet) {
+            var tweetCreated = returnData.statuses[i].created_at;
+
+            //Calculating time 
+            var tweetTime = timeDiff(curDay, tweetCreated);
+
+            populateTweets(returnData, i, tweetTime, filterTerm);
         }
     }
+//    filter(filterTerm);
 }
+
 /*END: Populate Data*/
+
+/*START: Populate Tweets into DOM*/
+function populateTweets(returnData, i, tweetTime) {
+    //Populating Teweets
+    $('.tweet-list').append('<li class="tweet-item flex-wrapper"><div class="tooltip-wrapper tweet-user-info"><div class="tooltip-info"><img class="profile-img" src="' + returnData.statuses[i].user.profile_image_url_https + '" alt="' + returnData.statuses[i].user.screen_name + '" /></div><div class="tooltip-content rel-wrapper"><div class="rel-wrapper"><div class="tooltip-content-header flex-wrapper"><img class="profile-img" src="' + returnData.statuses[i].user.profile_image_url_https + '" alt="' + returnData.statuses[i].user.screen_name + '"  /><button class="btn secondary-btn" type="btn">Follow</button></div><div class="tooltip-content-body"><div class="user-name-block"><h3 class="user-name">' + returnData.statuses[i].user.name + '</h3><h5 class="user-handle">@' + returnData.statuses[i].user.screen_name + '</h5></div><p class="user-bio">' + returnData.statuses[i].user.description + '</p><div class="user-follow-wrapper flex-wrapper"><span class="user-follow-ietm"><em>' + returnData.statuses[i].user.friends_count + '</em> Following</span><span class="user-follow-ietm"><em>' + returnData.statuses[i].user.followers_count + '</em> Followers</span></div></div></div></div></div><div class="tweet-content-info"><div class="tweet-info-wrapper"><div class="flex-wrapper flex-align-center"><div class="user-name-block"><h3 class="user-name">' + returnData.statuses[i].user.name + '</h3><h5 class="user-handle">@' + returnData.statuses[i].user.screen_name + '</h5></div><span class="tweet-time">' + tweetTime + '</span></div><div class="tweet-content"><p class="tweet-msg">' + returnData.statuses[i].text + '</p><img class="tweet-img" src="" alt="" /></div></div><div class="tweet-respond-wrapper flex-wrapper"><span class="tweet-respond-item tweet-comment"><i class="far fa-comment"></i> <em></em></span><span class="tweet-respond-item tweet-retweet"><i class="fas fa-retweet"></i> <em></em></span><span class="tweet-respond-item tweet-like"><i class="far fa-heart"></i> <em></em></span><span class="tweet-respond-item tweet-share"><i class="far fa-share-square"></i> <em></em></span></div></div></li>');
+}
+/*END: Populate Tweets into DOM*/
+
+
+/*START: Calculate Time*/
+function timeDiff(curDay, tweetCreated) {
+    var tweetDate = new Date(tweetCreated);
+    var diff = curDay.valueOf() - tweetDate.valueOf();
+    var hours = Math.floor(diff / 1000 / 60 / 60);
+    diff -= hours * 1000 * 60 * 60;
+    var minutes = Math.floor(diff / 1000 / 60);
+    if (hours > 0) {
+        if (hours >= 24) {
+            hours = parseInt((hours / 24));
+            return hours + "day";
+        } else {
+            return hours + "h " + minutes + "m";
+        }
+    } else {
+        return minutes + "m";
+    }
+}
+
+/*END: Calculate Time*/
 
 /*START: Lazy Loading*/
 function lazyLoading() {
@@ -85,12 +170,13 @@ function lazyLoading() {
         docHeight = $(document).height();
         scrollTop = $(window).scrollTop() + $(window).height();
         //Works only when its not in cart view
-        if ((!$('body').hasClass('show-cart')) && $('.product-list .product-item').length < (totalProduct - 1)) {
-            if (scrollTop == docHeight) {
-                rangeStart = $('.product-list .product-item').length;
+        if ($('.tweet-list .tweet-item').length < (totalTweet - 1)) {
+            if (scrollTop >= docHeight) {
+                rangeStart = $('.tweet-list .tweet-item').length;
+                rangeEnd = rangeStart + 4;
                 showLoader();
                 setTimeout(function () {
-                    getData();
+                    getData(rangeStart, rangeEnd);
                 }, 200);
             }
         }
@@ -196,7 +282,7 @@ function deleteProduct() {
         count = ele.closest('.product-item').find('.form-input').val();
         price = parseFloat(ele.closest('.product-item').find('.p-final-price').html().split(" ")[1]);
         ele.closest('.product-item').remove();
-        totalPCount = $('.cart-wrapper .product-item').length; 
+        totalPCount = $('.cart-wrapper .product-item').length;
         totalPAmt = totalPAmt - price; //Re-assigning the current value
         $('.cart-wrapper .total-cart-item, .shopping-cart em').html(totalPCount);
         $('.cart-wrapper .total-amt em').html(totalPAmt);
@@ -219,23 +305,30 @@ function continueShopping() {
 /*END: Start Shopping from empty cart*/
 
 
-
 /*START: Search*/
 function search() {
-    var filterTerm, targetText, txtValue;
-    filterTerm = $('.search-wrapper .form-input').val().toUpperCase();
+    $(document).on('keyup', '.search-wrapper .form-input', function () {
+        filterTerm = $(this).val().toUpperCase();
+        filter(filterTerm);
+    })
+}
+/*END: Search*/
+
+/*START: Search*/
+function filter(filterTerm) {
+    var targetText, txtValue;
     if (filterTerm.length >= 1) {
-        for (var i = 0; i < $('.product-list .product-item').length; i++) {
-            targetText = $('.product-list .product-item:nth-child(' + (i + 1) + ') .p-type')[0];
+        for (var i = 0; i < $('.tweet-list .tweet-item').length; i++) {
+            targetText = $('.tweet-list .tweet-item:nth-child(' + (i + 1) + ') .tweet-msg')[0];
             txtValue = targetText.textContent || targetText.innerText;
             if (txtValue.toUpperCase().indexOf(filterTerm) > -1) {
-                $('.product-list .product-item:nth-child(' + (i + 1) + ')').show();
+                $('.tweet-list .tweet-item:nth-child(' + (i + 1) + ')').show();
             } else {
-                $('.product-list .product-item:nth-child(' + (i + 1) + ')').hide();
+                $('.tweet-list .tweet-item:nth-child(' + (i + 1) + ')').hide();
             }
         }
     } else {
-        $('.product-list .product-item').show();
+        $('.tweet-list .tweet-item').show();
     }
 }
 /*END: Search*/
